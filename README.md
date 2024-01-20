@@ -1,2 +1,2 @@
-# flyexample
-Fly.io SpringBoot Example
+# Running UP
+This is a sample GAME deployed in Fly.io.

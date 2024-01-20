@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.random.RandomGenerator;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.Max;
 
 import java.math.BigDecimal;
 
@@ -33,8 +33,8 @@ public class GameWeb {
     private static GameLocation speedLocation() {
         return GameLocation.builder()
             .gameId(UUID.randomUUID().toString())
-            .latitud(BigDecimal.valueOf(38.012721))
-            .longitud(BigDecimal.valueOf(-1.152159))
+            .latitud(BigDecimal.valueOf(RandomGenerator.getDefault().nextInt(-85,85)))
+            .longitud(BigDecimal.valueOf(RandomGenerator.getDefault().nextInt(-180, 180)))
             .distance(BigDecimal.valueOf(0))
             .elevation(BigDecimal.valueOf(62))
             .points(BigDecimal.valueOf(0))
@@ -49,6 +49,7 @@ public class GameWeb {
     private static GameLocation enduranceLocation() {
         return GameLocation.builder()
             .gameId(UUID.randomUUID().toString())
+            // Fosa de las marianas
             .latitud(BigDecimal.valueOf(11.3493))
             .longitud(BigDecimal.valueOf(142.1996))
             .distance(BigDecimal.valueOf(0))
