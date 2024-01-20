@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.random.RandomGenerator;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -33,10 +32,11 @@ public class GameWeb {
     private static GameLocation speedLocation() {
         return GameLocation.builder()
             .gameId(UUID.randomUUID().toString())
-            .latitud(BigDecimal.valueOf(RandomGenerator.getDefault().nextInt(-85,85)))
-            .longitud(BigDecimal.valueOf(RandomGenerator.getDefault().nextInt(-180, 180)))
+            // Fosa de las marianas
+            .latitud(BigDecimal.valueOf(11.3493))
+            .longitud(BigDecimal.valueOf(142.1996))
             .distance(BigDecimal.valueOf(0))
-            .elevation(BigDecimal.valueOf(62))
+            .elevation(BigDecimal.valueOf(-10745))
             .points(BigDecimal.valueOf(0))
             .totalPoints(BigDecimal.valueOf(0))
             .steps(BigDecimal.valueOf(0))
