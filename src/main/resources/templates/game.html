@@ -41,6 +41,19 @@
         </div>
         <div id="map"></div>
         <script>
+            function playBeep(f, t) {
+                // one context per document
+                var context = new (window.AudioContext || window.webkitAudioContext)();
+                var osc = context.createOscillator(); // instantiate an oscillator
+                var gain = context.createGain(); // Instanciate gain
+                osc.type = t; // this is the default - also square, sawtooth, triangle
+                osc.frequency.value = f; // Hz
+                osc.connect(gain); // connect osc to gain
+                gain.connect(context.destination); // connect it to the destination
+                gain.gain.value = 0.3; // from 0 to 1, 1 full volume, 0 is muted
+                osc.start(0); // start the oscillator
+                gain.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 1);
+            }
             function msToTime(duration) {
                 var milliseconds = Math.floor((duration % 1000) / 100),
                     seconds = Math.floor((duration / 1000) % 60),
@@ -72,6 +85,7 @@
                 fetch(`/location/${e.latlng.lat}/${e.latlng.lng}`)
                     .then(response => { 
                         if (!response.ok) {
+                            playBeep(87.31,'triangle');
                             document.querySelector("#over").innerHTML = 'GAME OVER!!';
                             document.querySelector("#board").style.display = 'none';
                             gameOver = true;
@@ -79,13 +93,15 @@
                         return response.json();
                     })
                     .then(data => {
+                        var elvClass = 'red';
+                        if (!gameOver) { elvClass = ''; playBeep(261.6,'sine'); }
                         current = data;
                         document.querySelector("#points").innerHTML = current.pts;
                         document.querySelector("#steps").innerHTML = current.stp;
                         document.querySelector("#distance").innerHTML = current.totaldst.toFixed(2) + 'km';
                         document.querySelector("#time").innerHTML = msToTime(current.time);
                         currentMarker
-                            .bindPopup(`Elevation: ${current.alt.toFixed(2)}m<br/>Distance: ${current.dst.toFixed(2)}km`)
+                            .bindPopup(`<span class="${elvClass}"><b>Elevation</b>: ${current.alt.toFixed(2)}m</span><br/><b>Distance</b>: ${current.dst.toFixed(2)}km`)
                             .openPopup();
                     });
             });

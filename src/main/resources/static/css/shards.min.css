@@ -19,6 +19,10 @@ body {
     margin-bottom: 0.1em;
 }
 
+.red {
+    color: red;
+}
+
 .title {
     font-weight: bold;
     background-color: #1f8dd6;

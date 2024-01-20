@@ -19,6 +19,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.math.BigDecimal;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -65,6 +67,8 @@ public class GameWeb {
 
     @Value("${apimode:true}")
     private boolean apimode;
+    @Value("${del.password:DELETE}")
+    private String delPassword;
     private JPAGameRepository jpaGameRepository;
     private RestTemplate restTemplate;
     private HashMap<String,GameLocation> locations = new HashMap<>();
@@ -75,7 +79,8 @@ public class GameWeb {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(@RequestParam(name = "d", required = false) String d, Model model) {
+        if (delPassword.equals(d)) jpaGameRepository.deleteAll();
         model.addAttribute("speedgames", 
             jpaGameRepository.findAll().stream()
                 .filter(g->SPEED_MODE.equals(g.getMode()))
