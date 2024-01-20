@@ -119,10 +119,10 @@ public class GameWeb {
     @GetMapping("/location/{lat}/{lng}")
     public ResponseEntity<GameLocation> location(HttpServletRequest request, HttpServletResponse response, @PathVariable(name = "lat", required = true) float lat, @PathVariable(name = "lng", required = true) float lng) {
         // https://api.opentopodata.org/v1/gebco2020?locations=${e.latlng.lat},${e.latlng.lng}
-        // Topo tp = restTemplate.getForObject(String.format(java.util.Locale.ENGLISH, "https://api.opentopodata.org/v1/gebco2020?locations=%f,%f",lat,lng),Topo.class);
+        Topo tp = restTemplate.getForObject(String.format(java.util.Locale.ENGLISH, "https://api.opentopodata.org/v1/gebco2020?locations=%f,%f",lat,lng),Topo.class);
         Cookie gameCookie = Arrays.stream(request.getCookies()).filter(c -> COOKIE_NAME.equals(c.getName())).findFirst().orElseThrow();
         GameLocation currentLocation = locations.get(gameCookie.getValue());
-        Topo tp = Topo.random(currentLocation.getElevation());
+        //Topo tp = Topo.random(currentLocation.getElevation());
         GameLocation newLocation = GameLocation
             .builder()
             .latitud(BigDecimal.valueOf(lat))
