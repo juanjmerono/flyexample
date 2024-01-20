@@ -42,60 +42,44 @@
 
             <div class="content">
                 <h2 class="content-head is-center">Game Ranking</h2>
-                <div class="pure-g contenedor">
+                <div class="pure-g">
                     <div class="l-box pure-u-1 pure-u-md-1-2">
-                        <table class="pure-table pure-table-horizontal">
-                            <caption>Speed Mode (Top 10)</caption>
-                            <thead>
-                                <tr>
-                                    <!--th>#</th-->
-                                    <th>#</th>
-                                    <th>Date</th>
-                                    <th>Dst</th>
-                                    <th>Time</th>
-                                    <th>Pts</th>
-                                    <th>Alt</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="game: ${speedgames}">
-                                    <!--td th:text="${game.id}" /-->
-                                    <td th:text="${game.totalSteps}" />
-                                    <td th:text="${game.formatStart}" />
-                                    <td th:text="${game.totalDistance}" />
-                                    <td th:text="${game.totalTime}" />
-                                    <td th:text="${game.totalPoints}" />
-                                    <td th:text="${game.maxElevation}" />
-                                </tr>                
-                            </tbody>
-                        </table> 
+                        <h4>Speed Mode (Top 10)</h4>
+                        <div class="pure-g title">
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Steps</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Date</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Dst</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Time</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Pts</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Elev</div>
+                        </div>
+                        <div class="pure-g" th:each="game: ${speedgames}">
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalSteps}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.formatStart}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalDistance}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalTime}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalPoints}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.maxElevation}" />
+                        </div>
                     </div>
                     <div class="l-box pure-u-1 pure-u-md-1-2">
-                        <table class="pure-table pure-table-horizontal">
-                            <caption>Endurace Mode (Top 10)</caption>
-                            <thead>
-                                <tr>
-                                    <!--th>#</th-->
-                                    <th>#</th>
-                                    <th>Date</th>
-                                    <th>Dst</th>
-                                    <th>Time</th>
-                                    <th>Pts</th>
-                                    <th>Alt</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="game: ${endurancegames}">
-                                    <!--td th:text="${game.id}" /-->
-                                    <td th:text="${game.totalSteps}" />
-                                    <td th:text="${game.formatStart}" />
-                                    <td th:text="${game.totalDistance}" />
-                                    <td th:text="${game.totalTime}" />
-                                    <td th:text="${game.totalPoints}" />
-                                    <td th:text="${game.maxElevation}" />
-                                </tr>                
-                            </tbody>
-                        </table> 
+                        <h4>Endurance Mode (Top 10)</h4>
+                        <div class="pure-g title">
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Steps</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Date</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Dst</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Time</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Pts</div>
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6">Elev</div>
+                        </div>
+                        <div class="pure-g" th:each="game: ${endurancegames}">
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalSteps}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.formatStart}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalDistance}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalTime}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.totalPoints}" />
+                            <div class="l-box pure-u-1-6 pure-u-md-1-6 ofhidden" th:text="${game.maxElevation}" />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,11 +14,14 @@ body {
     font-size: 13px;
 }
 
-.contenedor {
-    align-items: center;
-    justify-content: center;
-    height: 75vh;
-    margin: 0;    
+.title {
+    font-weight: bold;
+    background-color: #1f8dd6;
+    color: aliceblue;
+}
+
+.ofhidden {
+    overflow: hidden;
 }
 
 h1,

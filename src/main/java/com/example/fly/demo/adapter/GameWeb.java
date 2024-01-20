@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.Max;
 
 import java.math.BigDecimal;
 
@@ -60,6 +62,8 @@ public class GameWeb {
             .build();
     }
 
+    @Value("${apimode:true}")
+    private boolean apimode;
     private JPAGameRepository jpaGameRepository;
     private RestTemplate restTemplate;
     private HashMap<String,GameLocation> locations = new HashMap<>();
@@ -74,13 +78,13 @@ public class GameWeb {
         model.addAttribute("speedgames", 
             jpaGameRepository.findAll().stream()
                 .filter(g->SPEED_MODE.equals(g.getMode()))
-                .sorted((a,b) -> a.totalPoints().compareTo(b.totalPoints()))
+                .sorted((a,b) -> b.totalPoints().compareTo(a.totalPoints()))
                 .limit(10)
                 .collect(Collectors.toList()));
         model.addAttribute("endurancegames", 
             jpaGameRepository.findAll().stream()
                 .filter(g->ENDURANCE_MODE.equals(g.getMode()))
-                .sorted((a,b) -> a.totalPoints().compareTo(b.totalPoints()))
+                .sorted((a,b) -> b.totalPoints().compareTo(a.totalPoints()))
                 .limit(10)
                 .collect(Collectors.toList()));
         return "index";
@@ -119,10 +123,14 @@ public class GameWeb {
     @GetMapping("/location/{lat}/{lng}")
     public ResponseEntity<GameLocation> location(HttpServletRequest request, HttpServletResponse response, @PathVariable(name = "lat", required = true) float lat, @PathVariable(name = "lng", required = true) float lng) {
         // https://api.opentopodata.org/v1/gebco2020?locations=${e.latlng.lat},${e.latlng.lng}
-        Topo tp = restTemplate.getForObject(String.format(java.util.Locale.ENGLISH, "https://api.opentopodata.org/v1/gebco2020?locations=%f,%f",lat,lng),Topo.class);
+        // Max 100 locations per request.
+        // Max 1 call per second.
+        // Max 1000 calls per day
         Cookie gameCookie = Arrays.stream(request.getCookies()).filter(c -> COOKIE_NAME.equals(c.getName())).findFirst().orElseThrow();
         GameLocation currentLocation = locations.get(gameCookie.getValue());
-        //Topo tp = Topo.random(currentLocation.getElevation());
+        Topo tp = apimode ? 
+            restTemplate.getForObject(String.format(java.util.Locale.ENGLISH, "https://api.opentopodata.org/v1/gebco2020?locations=%f,%f",lat,lng),Topo.class)
+            : Topo.random(currentLocation.getElevation());
         GameLocation newLocation = GameLocation
             .builder()
             .latitud(BigDecimal.valueOf(lat))
